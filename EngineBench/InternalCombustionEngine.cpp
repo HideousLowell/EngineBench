@@ -41,8 +41,11 @@ double InternalCombustionEngine::getCurrentTorque() {
 
 InternalCombustionEngine::InternalCombustionEngine(const EngineData& data) {
     if (data.torque.size() < 2 || data.crankshaftSpeed.size() < 2 ||
-        data.torque.size() != data.crankshaftSpeed.size())
+        data.torque.size() != data.crankshaftSpeed.size()) {
         throw std::invalid_argument("Number of values of torque/crankshaftspeed must equal and > 1");
+    } else if(data.momentOfInertsia == 0) {
+        throw std::invalid_argument("The moment of inertsia can't be zero");
+    }
     momentOfInertsia = data.momentOfInertsia;
     overheatTemperature = data.overheatTemperature;
     Hm = data.Hm;
